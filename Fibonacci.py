@@ -10,7 +10,7 @@ class Fibonacci:
         # upper and lower limit function ensures limits are greater than 0 so no edge cases to handle
         # base case ends recursive step
         if next_number > self.upper_limit:
-            # finally, remove list values lower than lower limit
+            # if creating list with lower limit, remove list values lower than lower limit
             while self.fib_list[0] < self.lower_limit:
                 self.fib_list.pop(0)
             # end function call

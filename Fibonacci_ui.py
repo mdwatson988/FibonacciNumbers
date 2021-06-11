@@ -1,4 +1,5 @@
-from Fibonacci import *
+from Fibonacci import Fibonacci
+from files import *
 
 
 # create functions used for program
@@ -6,9 +7,9 @@ def upper_limit():
     while True:
         upper_limit_input = input("\nEnter the upper limit for your Fibonacci numbers list: ")
         try:
-            upper_limit = int(upper_limit_input)
-            if upper_limit > 0:
-                return upper_limit
+            fib_upper_limit = int(upper_limit_input)
+            if fib_upper_limit > 0:
+                return fib_upper_limit
             else:
                 print("Please enter a value greater than 0.")
         except ValueError:
@@ -19,9 +20,9 @@ def lower_limit():
     while True:
         lower_limit_input = input("\nEnter the lower limit for your Fibonacci numbers list: ")
         try:
-            lower_limit = int(lower_limit_input)
-            if lower_limit >= 0:
-                return lower_limit
+            fib_lower_limit = int(lower_limit_input)
+            if fib_lower_limit >= 0:
+                return fib_lower_limit
             else:
                 print("Please enter a value greater than or equal to 0.")
         except ValueError:
@@ -42,14 +43,50 @@ def set_integer():
             print("Please enter a whole number you wish to check.")
 
 
+def save_results(results_txt_path, result_string):
+    while True:
+        save_results_input = input('Would you like to save your results to the .txt file for later access? '
+                                   'Press "Y" for "Yes" or "N" for "No": ')
+
+        # if user wants to save the results
+        if save_results_input.upper() == "Y":
+            # open existing txt file using path from files.py
+            text_file = open(results_txt_path, 'a')
+            # write the results string to a new line on the file. string will already include an initial new line
+            text_file.write(result_string)
+            # close the file then break out of loop
+            text_file.close()
+            break
+
+        # if user doesn't want to save, immediately break out of loop
+        elif save_results_input.upper() == "N":
+            break
+        else:
+            print('Press "Y" to save your results or "N" to skip saving results.')
+
+
 # function for user manually setting upper/lower limit and seeing resulting list
 def fib_list():
-    # initialize current Fibonacci object with correct upper limit
-    current_fib = Fibonacci(lower_limit(), upper_limit())
+    # set and check limits
+    while True:
+        lower = lower_limit()
+        upper = upper_limit()
+
+        # if lower limit is larger than upper, get new limits
+        if lower >= upper:
+            print("\nPlease ensure your lower limit is smaller than your upper limit.")
+        else:
+            break
+
+    # initialize current Fibonacci object with correct limits
+    current_fib = Fibonacci(lower, upper)
 
     # create and print fibonacci list
     current_fib.populate_list()
-    current_fib.display_list()
+    print(current_fib.return_list())
+
+    # check if user wants to save results. if so, save result list string to the .txt file
+    save_results(txt_path, current_fib.return_list())
 
 
 def fib_int():
@@ -61,10 +98,19 @@ def fib_int():
 
     # if integer is found in Fibonacci numbers list, return True, the integer, and number's location in the sequence
     if integer in current_fib.fib_list:
-        return True, integer, (current_fib.fib_list.index(integer) + 1)
+        fib_answer = [True, integer, (current_fib.fib_list.index(integer) + 1)]
     # or return False and just the integer
     else:
-        return False, integer
+        fib_answer = [False, integer]
+
+    # create answer string using method in Fibonacci class
+    answer_string = current_fib.return_integer_answer(fib_answer)
+
+    # print results
+    print(answer_string)
+
+    # check if user wants to save results. if so, save integer answer string to the .txt file
+    save_results(txt_path, answer_string)
 
 
 print("\n****************************************")
@@ -87,19 +133,21 @@ while True:
         user_decision_input = input(
             'If you want to see a list of all Fibonacci numbers with certain limits, press "L"\n'
             'If you want to check if an integer is a Fibonacci number, press "I"\n')
+        # if user chose the fib list, run fib list function
         if user_decision_input.upper() == "L":
             fib_list()
+            # break out of user input loop to check if user wants to go again
             break
+        # if user chose the fib integer, run integer function
         elif user_decision_input.upper() == "I":
-            fib_answer = fib_int()
-            if fib_answer[0]:
-                print(f'Yes, {fib_answer[1]} is a Fibonacci number! It is number {fib_answer[2]} in the sequence.\n')
-            else:
-                print(f'Sorry, {fib_answer[1]} is not a Fibonacci number.\n')
+            fib_int()
+            # break out of user input loop to check if user wants to go again
             break
+        # go back to user input if anything other than L or I entered
         else:
             print('Please enter "L" to see a list of Fibonacci numbers or "I" to check an integer\n')
     go_again_input = input(
-        "Would you like to use the Fibonacci tool again? Press \"N\" to stop or any other key to continue.\n")
+        "\nWould you like to use the Fibonacci tool again? Press \"N\" to stop or any other key to continue.\n")
+    # break out of program loop if user doesn't want to continue
     if go_again_input.upper() == "N":
         break

@@ -21,5 +21,13 @@ class Fibonacci:
             return self.populate_list()
 
     # method to display the fibonacci list
-    def display_list(self):
-        print(f"\nThe Fibonacci sequence with an upper limit of {self.upper_limit} is: {self.fib_list}\n")
+    def return_list(self):
+        return f"\nThe Fibonacci sequence with a lower limit of {self.lower_limit} and an upper limit" \
+               f" of {self.upper_limit} is: {self.fib_list}\n"
+
+    # method to display integer answer results
+    def return_integer_answer(self, fib_int_object):
+        if fib_int_object[0]:
+            return f'\nYes, {fib_int_object[1]} is a Fibonacci number! It is number {fib_int_object[2]} in the sequence.\n'
+        else:
+            return f'\nSorry, {fib_int_object[1]} is not a Fibonacci number.\n'

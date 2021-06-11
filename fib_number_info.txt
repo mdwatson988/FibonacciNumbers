@@ -1,0 +1,9 @@
+The results of the Fibonacci numbers tool are stored in this file for later access.
+
+Yes, 34 is a Fibonacci number! It is number 10 in the sequence.
+
+The Fibonacci sequence with a lower limit of 3 and an upper limit of 100000 is: [3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025]
+
+Sorry, 188 is not a Fibonacci number.
+
+The Fibonacci sequence with a lower limit of 654 and an upper limit of 267349 is: [987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418]
